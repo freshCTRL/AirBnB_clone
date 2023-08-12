@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-from .. import BaseModel
 """
     This module contains function to store our data informations
 """
