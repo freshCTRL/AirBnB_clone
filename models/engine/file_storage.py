@@ -59,5 +59,4 @@ class FileStorage:
         filename = f"{FileStorage.__file_path}.json"
         if os.path.isfile(filename):
             with open(filename, mode="r", encoding="utf-8") as file:
-                FileStorage.__objects = BaseModel(**(json.loads(file.read())))
-
+                FileStorage.__objects = json.loads(file.read())
