@@ -1,13 +1,14 @@
 #!/usr/bin/python3
 """
-    This module contains the class named Basemodel
+    This module contains the class Basemodel
 """
 from datetime import datetime
 import uuid
+from models.__init__ import storage
 """Defines the base model for the project."""
 
 
-class BaseModel():
+class BaseModel:
     """
     BaseModel that defines all common
     attributes/methods for other classes.
@@ -28,10 +29,13 @@ class BaseModel():
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
 
+        storage.new(self.to_dict())
+
     def save(self):
         """updates the public instance attribute
         updated_at with the current datetime"""
         self.updated_at = datetime.now()
+        storage.save()
 
     def to_dict(self):
         """
@@ -45,5 +49,5 @@ class BaseModel():
         return new_dict
 
     def __str__(self):
-        """prints the string represntation of an object"""
+        """prints the string representation of an object"""
         return "[BaseModel] ({}) {}".format(self.id, self.__dict__)
