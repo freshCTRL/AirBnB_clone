@@ -14,14 +14,14 @@ store and persist objects to a file (JSON file)
 
 class HBNBCommand(cmd.Cmd):
     """The command interpter"""
-    prompt = "(hbnb)"
+    prompt = "(hbnb) "
     classes = ["BaseModel"]
 
     def do_create(self, *args):
         """
         Creates new instance of and prints its id and saves to  the storage
         """
-        if len(args) == 0:
+        if len(*args) == 0:
             print("** class name missing **")
         else:
             try:
@@ -49,6 +49,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, arg):
         """Exits when CRTL+D is done"""
+        print()
         return True
 
     def do_quit(self, arg):
