@@ -29,7 +29,9 @@ class FileStorage:
         Initialises the (new) method of the instance/class
         """
         if obj:
-            FileStorage.__objects = {f"{obj['__class__']}.{obj['id']}": "[BaseModel] ({}) {}".format(obj["id"], obj)}
+            FileStorage.__objects = {f"{obj['__class__']}.{obj['id']}":
+                                     "[BaseModel] ({}) {}".format(obj["id"],
+                                                                  obj)}
 
     def save(self):
         """

@@ -33,7 +33,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, args):
         """"
-        Prints the string representation of an 
+        Prints the string representation of an
         instance based on the class name and id
         """
         args_list = args.split()
@@ -46,7 +46,6 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
         else:
             print(obj_dic["{}.{}".format(args_list[0], args_list[1])])
-
 
     def do_EOF(self, arg):
         """Exits when CRTL+D is done"""
