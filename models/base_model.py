@@ -17,6 +17,9 @@ class BaseModel:
     def __init__(self, *args, **kwargs):
         """initiates new instance"""
         dt_format = "%Y-%m-%dT%H:%M:%S.%f"
+        self.id = str(uuid.uuid4())
+        self.created_at = datetime.today()
+        self.updated_at = datetime.today()
         if len(kwargs) != 0:
             for k, v in kwargs.items():
                 if k != "__class__":
@@ -25,11 +28,7 @@ class BaseModel:
                     else:
                         setattr(self, k, v)
         else:
-            self.id = str(uuid.uuid4())
-            self.created_at = datetime.now()
-            self.updated_at = datetime.now()
-
-        storage.new(self.to_dict())
+            storage.new(self.to_dict())
 
     def save(self):
         """updates the public instance attribute
