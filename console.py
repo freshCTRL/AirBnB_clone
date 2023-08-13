@@ -8,8 +8,8 @@ store and persist objects to a file (JSON file)
 
 
 import cmd
-from models.base_model import BaseModel
 from models.__init__ import storage
+from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
@@ -39,6 +39,7 @@ class HBNBCommand(cmd.Cmd):
         instance based on the class name and id
         """
         args_list = args.split()
+        storage.reload()
         obj_dic = storage.all()
         if len(args_list) == 0:
             print("** class name missing **")
@@ -47,7 +48,56 @@ class HBNBCommand(cmd.Cmd):
         elif len(args_list) == 1:
             print("** instance id missing **")
         else:
-            print(obj_dic["{}.{}".format(args_list[0], args_list[1])])
+            try:
+                print(obj_dic["{}.{}".format(args_list[0], args_list[1])])
+            except KeyError:
+                print("** no instance found **")
+
+    def do_destroy(self, args):
+        """
+        Deletes an instance based on the class name and id
+        """
+        import os
+        import json
+        args_list = args.split()
+        if len(args_list) == 0:
+            print("** class name missing **")
+        elif args_list[0] not in self.classes:
+            print("** class doesn't exist **")
+        elif len(args_list) == 1:
+            print("** instance id missing **")
+        else:
+            filename = f"file.json"
+            if os.path.isfile(filename):
+                with open(filename, mode="r", encoding="utf-8") as file:
+                    b = json.loads(file.read())
+                try:
+                    del b["{}.{}".format(args_list[0], args_list[1])]
+                    with open(filename, mode="w", encoding="utf-8") as file:
+                        file.write(json.dumps(b))
+                        file.close()
+                    storage.reload()
+                except KeyError:
+                    print("** no instance found **")
+            else:
+                print("** no instance found **")
+
+    def do_all(self, args):
+        """
+        prints the string repersention of all instances
+        """
+        storage.reload()
+        args_list = args.split()
+        objs_dic = storage.all()
+        objs_list = [str(obj) for obj in objs_dic.values()]
+        final_list = []
+        if len(args_list) != 0:
+            for ele in objs_list:
+                if ele[:len(args_list[0]) + 2] == "[{}]".format(args_list[0]):
+                    final_list.append(str(ele))
+            print(final_list)
+        else:
+            print(objs_list)
 
     def do_EOF(self, arg):
         """Exits when CRTL+D is done"""
@@ -56,6 +106,7 @@ class HBNBCommand(cmd.Cmd):
     def emptyline(self):
         """does nothing when empty line is passed"""
         pass
+
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
