@@ -43,8 +43,17 @@ class FileStorage:
             with open(filename, mode="r", encoding="utf-8") as file:
                 b = json.loads(file.read())
             with open(filename, mode="w", encoding="utf-8") as file:
-                FileStorage.__objects.update(b)
-                file.write(json.dumps(FileStorage.__objects))
+                for key in reversed(FileStorage.__objects.keys()):
+                    first_key = key
+                for k, v in FileStorage.__objects[first_key].items():
+                    if k == "__class__":
+                        a = v
+                if a == "BaseModel":  # just check only the first key of the base model
+                    FileStorage.__objects.update(b)
+                    file.write(json.dumps(FileStorage.__objects))
+                else:
+                    b.update(FileStorage.__objects)
+                    file.write(json.dumps(b))
         else:
             with open(filename, mode="w", encoding="utf-8") as file:
                 file.write(json.dumps(FileStorage.__objects))
