@@ -121,7 +121,7 @@ class HBNBCommand(cmd.Cmd):
                 with open(filename, mode="r", encoding="utf-8") as file:
                     b = json.loads(file.read())
                 try:
-                    b["{}.{}".format(args_list[0], args_list[1])]["{}".format(args_list[2)]] = args_list[3]
+                    b["{}.{}".format(args_list[0], args_list[1])]["{}".format(args_list[2])] = args_list[3]
                     with open(filename, mode="w", encoding="utf-8") as file:
                         file.write(json.dumps(b))
                         file.close()

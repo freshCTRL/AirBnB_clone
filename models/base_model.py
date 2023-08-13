@@ -16,11 +16,12 @@ class BaseModel:
 
     def __init__(self, *args, **kwargs):
         """initiates new instance"""
+        dt_format = "%Y-%m-%dT%H:%M:%S.%f"
         if len(kwargs) != 0:
             for k, v in kwargs.items():
                 if k != "__class__":
                     if k == "created_at" or k == "updated_at":
-                        setattr(self, k, v)
+                        setattr(self, k, datetime.strptime(v, dt_format))
                     else:
                         setattr(self, k, v)
         else:
