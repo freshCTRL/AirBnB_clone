@@ -8,8 +8,16 @@ store and persist objects to a file (JSON file)
 
 
 import cmd
+import os
+import json
 from models.__init__ import storage
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
 
 class HBNBCommand(cmd.Cmd):
@@ -17,7 +25,15 @@ class HBNBCommand(cmd.Cmd):
     The command interpter
     """
     prompt = "(hbnb) "
-    classes = {"BaseModel": BaseModel}
+    classes = {
+            "BaseModel": BaseModel,
+            "City": City,
+            "State": State,
+            "User": User,
+            "Amenity": Amenity,
+            "Place": Place,
+            "Review": Review
+            }
 
     def do_create(self, *args):
         """
@@ -57,8 +73,6 @@ class HBNBCommand(cmd.Cmd):
         """
         Deletes an instance based on the class name and id
         """
-        import os
-        import json
         args_list = args.split()
         if len(args_list) == 0:
             print("** class name missing **")
@@ -92,12 +106,52 @@ class HBNBCommand(cmd.Cmd):
         objs_list = [str(obj) for obj in objs_dic.values()]
         final_list = []
         if len(args_list) != 0:
-            for ele in objs_list:
-                if ele[:len(args_list[0]) + 2] == "[{}]".format(args_list[0]):
-                    final_list.append(str(ele))
-            print(final_list)
-        else:
+            if args_list[0] in self.classes:
+                for ele in objs_list:
+                    if ele[:len(args_list[0]) + 2]\
+                            == "[{}]".format(args_list[0]):
+                        final_list.append(str(ele))
+                if len(final_list) != 0:
+                    print(final_list)
+            else:
+                print("** class doesn't exist **")
+        elif len(objs_list) != 0:
             print(objs_list)
+
+    def do_update(self, args):
+        """
+        Updates an instance based on the class name
+        and id by adding or updating attribute
+        """
+        args_list = args.split()
+        if len(args_list) == 0:
+            print("** class name missing **")
+        elif args_list[0] not in self.classes:
+            print("** class doesn't exist **")
+        elif len(args_list) == 1:
+            print("** instance id missing **")
+        elif len(args_list) == 2:
+            print("** attribute name missing **")
+        elif len(args_list) == 3:
+            print("** value missing **")
+        else:
+            filename = f"file.json"
+            if os.path.isfile(filename):
+                with open(filename, mode="r", encoding="utf-8") as file:
+                    b = json.loads(file.read())
+                try:
+                    value = args_list[3].strip('"')
+                    key1 = "{}.{}".format(args_list[0], args_list[1])
+                    key2 = "{}".format(args_list[2])
+                    b[key1][key2] = value
+                    with open(filename, mode="w", encoding="utf-8") as file:
+                        file.write(json.dumps(b))
+                        file.close()
+                    storage.reload()
+                except KeyError:
+                    print("** no instance found **")
+            else:
+                print("** no instance found **")
 
     def do_EOF(self, arg):
         """Exits when CRTL+D is done"""
