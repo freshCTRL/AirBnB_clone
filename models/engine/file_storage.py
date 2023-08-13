@@ -3,7 +3,8 @@
     This module contains function to store our data informations
 """
 import datetime
-
+import os
+import json
 
 class FileStorage:
     """
@@ -36,8 +37,6 @@ class FileStorage:
         """
         Initialises the (save) method of the instance/class
         """
-        import json
-        import os
         filename = f"{FileStorage.__file_path}.json"
         if os.path.isfile(filename):
             with open(filename, mode="r", encoding="utf-8") as file:
@@ -64,9 +63,6 @@ class FileStorage:
         """
         Initialises the (reload) method of the instance/class
         """
-        import os
-        import json
-
         filename = f"{FileStorage.__file_path}.json"
         if os.path.isfile(filename):
             with open(filename, mode="r", encoding="utf-8") as file:
