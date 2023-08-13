@@ -1,9 +1,4 @@
 #!/usr/bin/python3
-import cmd
-from models.base_model import BaseModel
-from models.__init__ import storage
-
-
 """
 This program is entry point for the airpnp
 create your data model manage (create, update, destroy, etc) objects
@@ -12,10 +7,17 @@ store and persist objects to a file (JSON file)
 """
 
 
+import cmd
+from models.base_model import BaseModel
+from models.__init__ import storage
+
+
 class HBNBCommand(cmd.Cmd):
-    """The command interpter"""
+    """
+    The command interpter
+    """
     prompt = "(hbnb) "
-    classes = ["BaseModel"]
+    classes = {"BaseModel": BaseModel}
 
     def do_create(self, *args):
         """
