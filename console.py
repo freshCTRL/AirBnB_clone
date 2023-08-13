@@ -51,8 +51,11 @@ class HBNBCommand(cmd.Cmd):
 
     def do_EOF(self, arg):
         """Exits when CRTL+D is done"""
-        print()
         return True
+
+    def emptyline(self):
+        """does nothing when empty line is passed"""
+        pass
 
     def do_quit(self, arg):
         """Quit command to exit the program"""
