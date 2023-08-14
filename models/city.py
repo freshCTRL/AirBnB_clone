@@ -12,11 +12,11 @@ class City(BaseModel):
     state_id = ""  # State.id
     name = ""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
             Initialises the City class
         """
-        super().__init__()
+        super().__init__(self, *args, **kwargs)
 
     def to_dict(self):
         """

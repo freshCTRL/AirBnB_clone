@@ -19,13 +19,13 @@ class Place(BaseModel):
     price_by_night = 0
     latitude = 0.0
     longitude = 0.0
-    amenity_ids: []  # Amenity.id
+    amenity_ids = []  # Amenity.id
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
             Initialises the (Place) class
         """
-        super().__init__()
+        super().__init__(self, *args, **kwargs)
 
     def to_dict(self):
         """

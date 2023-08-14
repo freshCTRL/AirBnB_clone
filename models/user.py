@@ -14,11 +14,11 @@ class User(BaseModel):
     first_name = ""
     last_name = ""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
             Initialising the (User) class
         """
-        super().__init__()
+        super().__init__(self, *args, **kwargs)
 
     def to_dict(self):
         """

@@ -10,6 +10,19 @@ class TestBase(unittest.TestCase):
     """
         test for class (base_models)
     """
+
+    def setUp(self):
+        """
+            initialising a test...
+        """
+        pass
+
+    def tearDown(self):
+        """
+            closing a test...
+        """
+        pass
+
     def test_initialisation_str_save(self):
         """
             test for (init), (str), (save) method

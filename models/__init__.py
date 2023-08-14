@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""Creates and load the Storage"""
+"""
+    Initialises the storage instance of the FileStorage class
+"""
 from models.engine.file_storage import FileStorage
 
 storage = FileStorage()

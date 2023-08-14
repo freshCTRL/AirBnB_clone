@@ -1,9 +1,9 @@
 #!/usr/bin/python3
 """
-This program is entry point for the airpnp
-create your data model manage (create, update, destroy, etc) objects
-via a console / command interpreter
-store and persist objects to a file (JSON file)
+    This program is entry point for the airpnp
+    create your data model manage (create, update, destroy, etc) objects
+    via a console / command interpreter
+    store and persist objects to a file (JSON file)
 """
 
 
@@ -22,7 +22,7 @@ from models.review import Review
 
 class HBNBCommand(cmd.Cmd):
     """
-    The command interpter
+        The command interpter
     """
     prompt = "(hbnb) "
     classes = {
@@ -37,7 +37,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_create(self, *args):
         """
-        Creates new instance of and prints its id and saves to  the storage
+            Creates new instance of and prints its id and saves to  the storage
         """
         if len(*args) == 0:
             print("** class name missing **")
@@ -51,8 +51,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_show(self, args):
         """"
-        Prints the string representation of an
-        instance based on the class name and id
+            Prints the string representation of an
+            instance based on the class name and id
         """
         args_list = args.split()
         storage.reload()
@@ -71,7 +71,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_destroy(self, args):
         """
-        Deletes an instance based on the class name and id
+            Deletes an instance based on the class name and id
         """
         args_list = args.split()
         if len(args_list) == 0:
@@ -98,7 +98,7 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, args):
         """
-        prints the string repersention of all instances
+            prints the string repersention of all instances
         """
         storage.reload()
         args_list = args.split()
@@ -120,8 +120,8 @@ class HBNBCommand(cmd.Cmd):
 
     def do_update(self, args):
         """
-        Updates an instance based on the class name
-        and id by adding or updating attribute
+            Updates an instance based on the class name
+            and id by adding or updating attribute
         """
         args_list = args.split()
         if len(args_list) == 0:
@@ -154,15 +154,21 @@ class HBNBCommand(cmd.Cmd):
                 print("** no instance found **")
 
     def do_EOF(self, arg):
-        """Exits when CRTL+D is done"""
+        """
+            Exits when CRTL+D is done
+        """
         return True
 
     def emptyline(self):
-        """does nothing when empty line is passed"""
+        """
+            does nothing when empty line is passed
+        """
         pass
 
     def do_quit(self, arg):
-        """Quit command to exit the program"""
+        """
+            Quit command to exit the program
+        """
         return True
 
 

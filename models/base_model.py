@@ -5,17 +5,21 @@
 from datetime import datetime
 import uuid
 from models.__init__ import storage
-"""Defines the base model for the project."""
+"""
+    Defines the base model for the project.
+"""
 
 
 class BaseModel:
     """
-    BaseModel that defines all common
-    attributes/methods for other classes.
+        BaseModel that defines all common
+        attributes/methods for other classes.
     """
 
     def __init__(self, *args, **kwargs):
-        """initiates new instance"""
+        """
+            initiates new instance
+        """
         dt_format = "%Y-%m-%dT%H:%M:%S.%f"
         if len(kwargs) != 0:
             for k, v in kwargs.items():
@@ -31,18 +35,26 @@ class BaseModel:
         storage.new(self.to_dict())
 
     def name(self, value):
+        """
+            set name attr for an instance
+        """
         name = "name"
         setattr(self, name, value)
         getattr(self, name)
 
     def my_number(self, value):
+        """
+            set my_number attr for an instance
+        """
         my_number = "my_number"
         setattr(self, my_number, value)
         getattr(self, my_number)
 
     def save(self):
-        """updates the public instance attribute
-        updated_at with the current datetime"""
+        """
+            updates the public instance attribute
+            updated_at with the current datetime
+        """
         self.updated_at = datetime.now()
         storage.new(self.to_dict())
         storage.save()
@@ -59,6 +71,8 @@ class BaseModel:
         return new_dict
 
     def __str__(self):
-        """prints the string representation of an object"""
+        """
+            prints the string representation of an object
+        """
         return "[{}] ({}) {}".format(self.to_dict()['__class__'],
                                      self.id, self.__dict__)

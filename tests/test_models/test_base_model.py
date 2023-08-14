@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-This module contains tests for the file named file_storage.py
+    This module contains tests for the file named base_model.py
 """
 import unittest
 from models.base_model import BaseModel
@@ -10,6 +10,19 @@ class TestBase(unittest.TestCase):
     """
         test for class (base_models)
     """
+
+    def setUp(self):
+        """
+            initialising a test...
+        """
+        pass
+
+    def tearDown(self):
+        """
+            closing a test...
+        """
+        pass
+
     def test_initialisation_str_save(self):
         """
             test for (init), (str), (save) method
@@ -25,6 +38,12 @@ class TestBase(unittest.TestCase):
         self.assertIsNone(sample_1.save())
         self.assertEqual(sample_1.created_at, var_a)
         self.assertNotEqual(sample_1.created_at, sample_1.updated_at)
+        sample_4 = BaseModel()
+        sample_4.name = "My_First_Model"
+        sample_4.my_number = 89
+        sample_4.save()
+        self.assertIsNone(sample_4.save())
+        self.assertIsNotNone(str(sample_4))
 
     def test_to_dict_and_reinstantiation(self):
         """

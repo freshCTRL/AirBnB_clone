@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
- This module contains the amenity class
+    This module contains the amenity class
 """
 from models.base_model import BaseModel
 
@@ -11,11 +11,11 @@ class Amenity(BaseModel):
     """
     name = ""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
             Initialising the class
         """
-        super().__init__()
+        super().__init__(self, *args, **kwargs)
 
     def to_dict(self):
         """

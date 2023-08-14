@@ -11,11 +11,11 @@ class State(BaseModel):
     """
     name = ""
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
             Initialising the (State) class
         """
-        super().__init__()
+        super().__init__(self, *args, **kwargs)
 
     def to_dict(self):
         """
