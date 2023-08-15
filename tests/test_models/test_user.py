@@ -6,7 +6,7 @@ import unittest
 from models.user import User
 
 
-class TestBase(unittest.TestCase):
+class TestUser(unittest.TestCase):
     """
         test for class (base_models)
     """
