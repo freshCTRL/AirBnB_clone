@@ -1,0 +1,33 @@
+.places {
+  height: 100%;
+  /* width: 25%; */
+  padding: 0 4px 0 4px;
+  /* position: relative; */
+}
+.places, h1 {
+  font-size: 30px;
+  line-height: 8px;
+}
+.places .article h2 {
+  font-size: 30px;
+  line-height: 5px;
+  text-align: center;
+  padding: 10px 0px 10px 0px;
+  margin-top: 0px;
+}
+.places .article {
+  width: 390px;
+  padding: 20px;
+  margin: 20px;
+  border: 1px solid #FF5A5F;
+  border-radius: 4px;
+}
+body .container section .culprit {
+  /* display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: center; */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
