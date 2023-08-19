@@ -104,3 +104,6 @@ body .container section .culprit {
 .my-relative {
   position: relative;
 }
+adjust-font {
+  font-weight: normal;
+}
