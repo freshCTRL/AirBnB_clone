@@ -4,6 +4,7 @@
 """
 import unittest
 from models.base_model import BaseModel
+from models.engine.file_storage import FileStorage
 
 
 class TestBase(unittest.TestCase):
@@ -33,16 +34,20 @@ class TestBase(unittest.TestCase):
         self.assertIsNotNone(sample_1.id)
         self.assertIsNotNone(sample_1.created_at)
         self.assertIsNotNone(sample_1.updated_at)
-        var_a = sample_1.created_at
+        var_a = sample_1.updated_at
         sample_1.save()
-        self.assertIsNone(sample_1.save())
-        self.assertEqual(sample_1.created_at, var_a)
+        self.assertNotEqual(sample_1.updated_at, var_a)
         self.assertNotEqual(sample_1.created_at, sample_1.updated_at)
         sample_4 = BaseModel()
         sample_4.name = "My_First_Model"
         sample_4.my_number = 89
         sample_4.save()
-        self.assertIsNone(sample_4.save())
+        caller = FileStorage()
+        val = caller.all()
+        for key0 in val.keys():
+            for key1 in val[key0].keys():
+                if key1 == my_number:
+                    self.assertEqual(val.[key0][key1], 89)
         self.assertIsNotNone(str(sample_4))
 
     def test_to_dict_and_reinstantiation(self):
