@@ -46,7 +46,7 @@ class TestBase(unittest.TestCase):
         val = caller.all()
         for key0 in val.keys():
             for key1 in val[key0].keys():
-                if key1 == my_number:
+                if key1 == "my_number":
                     self.assertEqual(val.[key0][key1], 89)
         self.assertIsNotNone(str(sample_4))
 
