@@ -12,3 +12,15 @@ header picture img {
   justify-content: left;
   align-items: center;
 }
+.pic-0 {
+  background-image: url('https://s3.amazonaws.com/intranet-projects-files/holbertonschool-higher-level_programming+/268/logo.png');
+  width: 150px;
+  background-repeat: no-repeat;
+  background-position: center;
+  align-items: center;
+  justify-content: center;
+  background-size: cover;
+  height: 60px;
+  padding-left: 20px;
+  padding-top: 8px;
+}
