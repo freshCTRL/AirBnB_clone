@@ -2,6 +2,8 @@
 """
     a beautiful code
 """
+
+
 def does_nothing():
     """
         This function does nothing.
