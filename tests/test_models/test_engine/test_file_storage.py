@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import unittest
+import os
 from models.base_model import BaseModel
 # from models.engine.file_storage import FileStorage
 from models import storage
@@ -47,6 +48,7 @@ class TestFileStorage(unittest.TestCase):
         sample.save()
         a = storage.reload()
         self.assertEqual(content, a)
+        os.remove("file.json")
 
     def test_save_new(self):
         """
