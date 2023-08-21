@@ -77,6 +77,9 @@ class FileStorage:
             if os.path.isfile(filename):
                 with open(filename, mode="w", encoding="utf-8") as file:
                     file.write(json.dumps(FileStorage.__objects))
+            else:
+                with open(filename, mode="w", encoding="utf-8") as file:
+                    file.write(json.dumps(FileStorage.__objects))
         except:
             pass
 
