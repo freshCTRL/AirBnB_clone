@@ -42,32 +42,35 @@ class FileStorage:
         Initialises the (save) method of the instance/class
         """
         filename = f"{FileStorage.__file_path}"
-        if os.path.isfile(filename):
-            with open(filename, mode="r", encoding="utf-8") as file:
-                b = json.loads(file.read())
-            with open(filename, mode="w", encoding="utf-8") as file:
-                for key in reversed(FileStorage.__objects.keys()):
-                    first_key = key
-                for k, v in FileStorage.__objects[first_key].items():
-                    if k == "__class__":
-                        a = v
-                if a == "BaseModel":
-                    FileStorage.__objects.update(b)
+        try:
+            if os.path.isfile(filename):
+                with open(filename, mode="r", encoding="utf-8") as file:
+                    b = json.loads(file.read())
+                with open(filename, mode="w", encoding="utf-8") as file:
+                    for key in reversed(FileStorage.__objects.keys()):
+                        first_key = key
+                    for k, v in FileStorage.__objects[first_key].items():
+                        if k == "__class__":
+                            a = v
+                    if a == "BaseModel":
+                        FileStorage.__objects.update(b)
+                        file.write(json.dumps(FileStorage.__objects))
+                    else:
+                        b.update(FileStorage.__objects)
+                        file.write(json.dumps(b))
+            else:
+                with open(filename, mode="w", encoding="utf-8") as file:
                     file.write(json.dumps(FileStorage.__objects))
-                else:
-                    b.update(FileStorage.__objects)
-                    file.write(json.dumps(b))
-        else:
-            with open(filename, mode="w", encoding="utf-8") as file:
-                file.write(json.dumps(FileStorage.__objects))
+        except:
+            pass
 
     def reload(self):
         """
         Initialises the (reload) method of the instance/class
         """
         filename = f"{FileStorage.__file_path}"
-        if os.path.isfile(filename):
-            try:
+        try:
+            if os.path.isfile(filename):
                 with open(filename, mode="r", encoding="utf-8") as file:
                     FileStorage.__objects = json.loads(file.read())
 
@@ -88,5 +91,5 @@ class FileStorage:
                         "[{}] ({}) {}".format(kpClsNme,
                                               FileStorage.__objects[key]["id"],
                                               FileStorage.__objects[key])
-            except:
-                pass
+        except:
+            pass
