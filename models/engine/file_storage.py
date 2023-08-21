@@ -1,95 +1,77 @@
 #!/usr/bin/python3
 """
-    This module contains function to store our data informations
+    This module contains the class Basemodel
 """
-import datetime
-import os
-import json
+from datetime import datetime
+import uuid
+from models.__init__ import storage
+"""
+    Defines the base model for the project.
+"""
 
 
-class FileStorage:
+class BaseModel:
     """
-        This class contains functions needed to communicate our file storage
+        BaseModel that defines all common
+        attributes/methods for other classes.
     """
-    __file_path = "file.json"
-    __objects = {}
 
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         """
-            Initialises the class
+            initiates new instance
         """
-        pass
+        dt_format = "%Y-%m-%dT%H:%M:%S.%f"
+        if len(kwargs) != 0:
+            for k, v in kwargs.items():
+                if k != "__class__":
+                    if k == "created_at" or k == "updated_at":
+                        setattr(self, k, datetime.strptime(v, dt_format))
+                    else:
+                        setattr(self, k, v)
+        else:
+            self.id = str(uuid.uuid4())
+            self.created_at = datetime.now()
+            self.updated_at = datetime.now()
+            storage.new(self)
 
-    def all(self):
+    def name(self, value):
         """
-        Initialises the (all) method of the instance/class
-        :return:  FileStorage.__objects
+            set name attr for an instance
         """
-        return FileStorage.__objects
+        name = "name"
+        setattr(self, name, value)
+        getattr(self, name)
 
-    def new(self, obj):
+    def my_number(self, value):
         """
-        Initialises the (new) method of the instance/class
+            set my_number attr for an instance
         """
-        if obj:
-            try:
-                FileStorage.__objects = {f"{obj['__class__']}.{obj['id']}": obj}
-            except:
-                pass
+        my_number = "my_number"
+        setattr(self, my_number, value)
+        getattr(self, my_number)
 
     def save(self):
         """
-        Initialises the (save) method of the instance/class
+            updates the public instance attribute
+            updated_at with the current datetime
         """
-        filename = f"{FileStorage.__file_path}"
-        try:
-            if os.path.isfile(filename):
-                with open(filename, mode="r", encoding="utf-8") as file:
-                    b = json.loads(file.read())
-                with open(filename, mode="w", encoding="utf-8") as file:
-                    for key in reversed(FileStorage.__objects.keys()):
-                        first_key = key
-                    for k, v in FileStorage.__objects[first_key].items():
-                        if k == "__class__":
-                            a = v
-                    if a == "BaseModel":
-                        FileStorage.__objects.update(b)
-                        file.write(json.dumps(FileStorage.__objects))
-                    else:
-                        b.update(FileStorage.__objects)
-                        file.write(json.dumps(b))
-            else:
-                with open(filename, mode="w", encoding="utf-8") as file:
-                    file.write(json.dumps(FileStorage.__objects))
-        except:
-            pass
+        self.updated_at = datetime.now()
+        storage.save()
 
-    def reload(self):
+    def to_dict(self):
         """
-        Initialises the (reload) method of the instance/class
+           returns a dictionary containing all keys/values
+           of __dict__ of the instance with __class__ key that have
+           class name as value and format the created and updated at keys
         """
-        filename = f"{FileStorage.__file_path}"
-        try:
-            if os.path.isfile(filename):
-                with open(filename, mode="r", encoding="utf-8") as file:
-                    FileStorage.__objects = json.loads(file.read())
+        new_dict = {**self.__dict__, "__class__": "BaseModel"}
+        new_dict["created_at"] = self.created_at.isoformat()
+        new_dict["updated_at"] = self.updated_at.isoformat()
+        return new_dict
 
-                all_keys = FileStorage.__objects.keys()
-                for key in all_keys:
-                    def gt(dt_str):
-                        dt, _, us = dt_str.partition(".")
-                        dt = datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
-                        us = int(us.rstrip("Z"), 10)
-                        return dt + datetime.timedelta(microseconds=us)
-                    frmtd_date = gt(FileStorage.__objects[key]["created_at"])
-                    FileStorage.__objects[key]["created_at"] = frmtd_date
-                    frmtd_date = gt(FileStorage.__objects[key]["updated_at"])
-                    FileStorage.__objects[key]["updated_at"] = frmtd_date
-                    kpClsNme = FileStorage.__objects[key]["__class__"]
-                    del FileStorage.__objects[key]["__class__"]
-                    FileStorage.__objects[key] =\
-                        "[{}] ({}) {}".format(kpClsNme,
-                                              FileStorage.__objects[key]["id"],
-                                              FileStorage.__objects[key])
-        except:
-            pass
+    def __str__(self):
+        """
+            prints the string representation of an object
+        """
+        return "[{}] ({}) {}".format(self.to_dict()['__class__'],
+                                     self.id, self.__dict__)
