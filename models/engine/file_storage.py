@@ -35,16 +35,18 @@ class FileStorage:
             if type(FileStorage.__objects[key]) == str:
                 return FileStorage.__objects
             else:
-                frmtd_date = gt(FileStorage.__objects[key].to_dict()["created_at"])
-                FileStorage.__objects[key].to_dict()["created_at"] = frmtd_date
-                frmtd_date = gt(FileStorage.__objects[key].to_dict()["updated_at"])
-                FileStorage.__objects[key].to_dict()["updated_at"] = frmtd_date
-                kpClsNme = FileStorage.__objects[key].to_dict()["__class__"]
-                del FileStorage.__objects[key].to_dict()["__class__"]
-                FileStorage.__objects[key] = \
-                    "[{}] ({}) {}".format(kpClsNme,
-                                          FileStorage.__objects[key].to_dict()["id"],
-                                          FileStorage.__objects[key].to_dict())
+                all_keys = FileStorage.__objects.keys()
+                for key in all_keys:
+                    frmtd_date = gt(FileStorage.__objects[key].to_dict()["created_at"])
+                    FileStorage.__objects[key].to_dict()["created_at"] = frmtd_date
+                    frmtd_date = gt(FileStorage.__objects[key].to_dict()["updated_at"])
+                    FileStorage.__objects[key].to_dict()["updated_at"] = frmtd_date
+                    kpClsNme = FileStorage.__objects[key].to_dict()["__class__"]
+                    del FileStorage.__objects[key].to_dict()["__class__"]
+                    FileStorage.__objects[key] = \
+                        "[{}] ({}) {}".format(kpClsNme,
+                                              FileStorage.__objects[key].to_dict()["id"],
+                                              FileStorage.__objects[key].to_dict())
         return FileStorage.__objects
 
     def new(self, obj):
