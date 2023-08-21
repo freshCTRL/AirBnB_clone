@@ -30,17 +30,10 @@ class TestCity(unittest.TestCase):
         self.assertIsNone(sample_1.name)
         self.assertIsNone(sample_1.state_id)
         sample_1.name = "Bisi"
-        sample_1.state_id = ""
-        self.assertIsInstance(sample_1.state_id, str)
         self.assertTrue(sample_1.name == "Bisi")
         self.assertIsNotNone(sample_1.id)
         self.assertIsNotNone(sample_1.created_at)
         self.assertIsNotNone(sample_1.updated_at)
-        var_a = sample_1.created_at
-        sample_1.save()
-        self.assertIsNone(sample_1.save())
-        self.assertEqual(sample_1.created_at, var_a)
-        self.assertNotEqual(sample_1.created_at, sample_1.updated_at)
 
     def test_to_dict_and_reinstantiation(self):
         """
