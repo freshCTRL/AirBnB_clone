@@ -29,7 +29,6 @@ class TestState(unittest.TestCase):
         """
         sample_1 = State()
         self.assertIsNone(sample_1.name)
-        self.assertIsNone(sample_1.name)
         sample_1.name = "Osun"
         self.assertTrue(sample_1.name == "Osun")
         self.assertIsNotNone(sample_1.id)
