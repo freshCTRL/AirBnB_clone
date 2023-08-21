@@ -5,6 +5,7 @@
 import datetime
 import os
 import json
+import copy
 
 
 class FileStorage:
@@ -25,93 +26,57 @@ class FileStorage:
             Initialises the (all) method of the instance/class
             :return:  FileStorage.__objects
         """
+        final = copy.deepcopy(FileStorage.__objects)
+
         def gt(dt_str):
             dt, _, us = dt_str.partition(".")
             dt = datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
             us = int(us.rstrip("Z"), 10)
             return dt + datetime.timedelta(microseconds=us)
 
-        for key in FileStorage.__objects.keys():
-            if type(FileStorage.__objects[key]) == str:
-                return FileStorage.__objects
-            else:
-                all_keys = FileStorage.__objects.keys()
-                for key in all_keys:
-                    frmtd_date = gt(FileStorage.__objects[key].to_dict()["created_at"])
-                    FileStorage.__objects[key].to_dict()["created_at"] = frmtd_date
-                    frmtd_date = gt(FileStorage.__objects[key].to_dict()["updated_at"])
-                    FileStorage.__objects[key].to_dict()["updated_at"] = frmtd_date
-                    kpClsNme = FileStorage.__objects[key].to_dict()["__class__"]
-                    del FileStorage.__objects[key].to_dict()["__class__"]
-                    FileStorage.__objects[key] = \
-                        "[{}] ({}) {}".format(kpClsNme,
-                                              FileStorage.__objects[key].to_dict()["id"],
-                                              FileStorage.__objects[key].to_dict())
-        return FileStorage.__objects
+        all_keys = final.keys()
+        for key in all_keys:
+            frmtd_date = gt(final[key]["created_at"])
+            final[key]["created_at"] = frmtd_date
+            frmtd_date = gt(final[key]["updated_at"])
+            final[key]["updated_at"] = frmtd_date
+            kpClsNme = final[key]["__class__"]
+            del final[key]["__class__"]
+            final[key] = \
+                "[{}] ({}) {}".format(kpClsNme,
+                                      final[key]["id"],
+                                      final[key])
+        return final
 
     def new(self, obj):
         """
             Initialises the (new) method of the instance/class
         """
         if obj:
-            try:
-                b = {f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj}
-                for key in reversed(b.keys()):
-                    first_key = key
-                for k, v in b[first_key].items():
-                    if k == "__class__":
-                        a = v
-                        break
-                if a != "BaseModel":
-                    FileStorage.__objects.update(b)
-                else:
-                    FileStorage.__objects = b.update(FileStorage.__objects)
-            except:
-                pass
+            if obj.to_dict()['__class__'] != "BaseModel":
+                FileStorage.__objects.update({f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj.to_dict()})
+            else:
+                a = {f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj.to_dict()}
+                a.update(FileStorage.__objects)
+                FileStorage.__objects = a
 
     def save(self):
         """
             Initialises the (save) method of the instance/class
         """
         filename = f"{FileStorage.__file_path}"
-        try:
-            for key in FileStorage.__objects.keys():
-                FileStorage.__objects[key] = FileStorage.__objects[key].to_dict()
-            if os.path.isfile(filename):
-                with open(filename, mode="w", encoding="utf-8") as file:
-                    file.write(json.dumps(FileStorage.__objects))
-            else:
-                with open(filename, mode="w", encoding="utf-8") as file:
-                    file.write(json.dumps(FileStorage.__objects))
-        except:
-            pass
+        if os.path.isfile(filename):
+            with open(filename, mode="w", encoding="utf-8") as file:
+                file.write(json.dumps(FileStorage.__objects))
+        else:
+            with open(filename, mode="w", encoding="utf-8") as file:
+                file.write(json.dumps(FileStorage.__objects))
 
     def reload(self):
         """
             Initialises the (reload) method of the instance/class
         """
         filename = f"{FileStorage.__file_path}"
-        try:
-            if os.path.isfile(filename):
-                with open(filename, mode="r", encoding="utf-8") as file:
-                    FileStorage.__objects = json.loads(file.read())
-
-                all_keys = FileStorage.__objects.keys()
-                for key in all_keys:
-                    def gt(dt_str):
-                        dt, _, us = dt_str.partition(".")
-                        dt = datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
-                        us = int(us.rstrip("Z"), 10)
-                        return dt + datetime.timedelta(microseconds=us)
-                    frmtd_date = gt(FileStorage.__objects[key]["created_at"])
-                    FileStorage.__objects[key]["created_at"] = frmtd_date
-                    frmtd_date = gt(FileStorage.__objects[key]["updated_at"])
-                    FileStorage.__objects[key]["updated_at"] = frmtd_date
-                    kpClsNme = FileStorage.__objects[key]["__class__"]
-                    del FileStorage.__objects[key]["__class__"]
-                    FileStorage.__objects[key] =\
-                        "[{}] ({}) {}".format(kpClsNme,
-                                              FileStorage.__objects[key]["id"],
-                                              FileStorage.__objects[key])
-        except:
-            pass
+        if os.path.isfile(filename):
+            with open(filename, mode="r", encoding="utf-8") as file:
+                FileStorage.__objects = json.loads(file.read())
