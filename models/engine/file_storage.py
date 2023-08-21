@@ -22,14 +22,14 @@ class FileStorage:
 
     def all(self):
         """
-        Initialises the (all) method of the instance/class
-        :return:  FileStorage.__objects
+            Initialises the (all) method of the instance/class
+            :return:  FileStorage.__objects
         """
         return FileStorage.__objects
 
     def new(self, obj):
         """
-        Initialises the (new) method of the instance/class
+            Initialises the (new) method of the instance/class
         """
         if obj:
             try:
@@ -68,7 +68,7 @@ class FileStorage:
 
     def reload(self):
         """
-        Initialises the (reload) method of the instance/class
+            Initialises the (reload) method of the instance/class
         """
         filename = f"{FileStorage.__file_path}"
         try:
