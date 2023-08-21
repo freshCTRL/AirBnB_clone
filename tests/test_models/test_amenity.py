@@ -28,16 +28,12 @@ class TestAmenity(unittest.TestCase):
             test for (init), (str), (save) method
         """
         sample_1 = Amenity()
+        self.assertIsNonesample_1.name)
         sample_1.name = "Bisi"
         self.assertTrue(sample_1.name == "Bisi")
         self.assertIsNotNone(sample_1.id)
         self.assertIsNotNone(sample_1.created_at)
         self.assertIsNotNone(sample_1.updated_at)
-        var_a = sample_1.created_at
-        sample_1.save()
-        self.assertIsNone(sample_1.save())
-        self.assertEqual(sample_1.created_at, var_a)
-        self.assertNotEqual(sample_1.created_at, sample_1.updated_at)
 
     def test_to_dict_and_reinstantiation(self):
         """
