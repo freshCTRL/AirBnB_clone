@@ -34,7 +34,7 @@ class FileStorage:
         if obj:
             try:
                 FileStorage.__objects = {f"{obj['__class__']}.{obj['id']}": obj}
-            except ExceptionGroup:
+            except:
                 pass
 
     def save(self):
