@@ -5,7 +5,21 @@
 import datetime
 import os
 import json
-import copy
+
+
+class BaseModel:
+    """
+        re-declaring a class baseModel
+    """
+    def __init__(self, dict1):
+        self.__dict__.update(dict1)
+
+
+def dict2obj(dict1):
+    """
+        convert a dict representation to a dictionary
+    """
+    return json.loads(json.dumps(dict1), object_hook=BaseModel)
 
 
 class FileStorage:
@@ -26,27 +40,21 @@ class FileStorage:
             Initialises the (all) method of the instance/class
             :return:  FileStorage.__objects
         """
-        final = copy.deepcopy(FileStorage.__objects)
-
         def gt(dt_str):
             dt, _, us = dt_str.partition(".")
             dt = datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
             us = int(us.rstrip("Z"), 10)
             return dt + datetime.timedelta(microseconds=us)
 
-        all_keys = final.keys()
+        all_keys = FileStorage.__objects.keys()
         for key in all_keys:
-            frmtd_date = gt(final[key]["created_at"])
-            final[key]["created_at"] = frmtd_date
-            frmtd_date = gt(final[key]["updated_at"])
-            final[key]["updated_at"] = frmtd_date
-            kpClsNme = final[key]["__class__"]
-            del final[key]["__class__"]
-            final[key] = \
-                "[{}] ({}) {}".format(kpClsNme,
-                                      final[key]["id"],
-                                      final[key])
-        return final
+            del FileStorage.__objects[key]["__class__"]
+            FileStorage.__objects[key] = dict2obj(FileStorage.__objects[key])
+            frmtd_date = gt(FileStorage.__objects[key].__dict__["created_at"])
+            FileStorage.__objects[key].__dict__["created_at"] = frmtd_date
+            frmtd_date = gt(FileStorage.__objects[key].__dict__["updated_at"])
+            FileStorage.__objects[key].__dict__["updated_at"] = frmtd_date
+        return FileStorage.__objects
 
     def new(self, obj):
         """
