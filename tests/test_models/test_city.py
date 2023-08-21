@@ -27,6 +27,8 @@ class TestCity(unittest.TestCase):
             test for (init), (str), (save) method
         """
         sample_1 = City()
+        self.assertIsNone(sample_1.name)
+        self.assertIsNone(sample_1.state_id)
         sample_1.name = "Bisi"
         sample_1.state_id = ""
         self.assertIsInstance(sample_1.state_id, str)
