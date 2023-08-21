@@ -28,7 +28,7 @@ class TestState(unittest.TestCase):
             test for (init), (str), (save) method
         """
         sample_1 = State()
-        self.assertIsNone(sample_1.name)
+        self.assertIsNotNone(sample_1.name)
         sample_1.name = "Osun"
         self.assertTrue(sample_1.name == "Osun")
         self.assertIsNotNone(sample_1.id)
