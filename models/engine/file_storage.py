@@ -62,7 +62,7 @@ class FileStorage:
                     if k == "__class__":
                         a = v
                         break
-                if not a == "BaseModel":
+                if a != "BaseModel":
                     FileStorage.__objects.update(b)
                 else:
                     FileStorage.__objects = b.update(FileStorage.__objects)
