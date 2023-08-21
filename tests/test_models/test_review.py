@@ -30,8 +30,7 @@ class TestReview(unittest.TestCase):
         sample_1 = Review()
         self.assertIsNone(sample_1.user_id)
         self.assertIsNone(sample_1.text)
-        self.assertIsNone(sample_1.name)
-        self.assertEqual(sample_1.amenitys, [])
+        self.assertIsNone(sample_1.place_id)
         sample_1.name = "Bisi"
         self.assertIsInstance(sample_1.user_id, str)
         self.assertIsInstance(sample_1.text, str)
