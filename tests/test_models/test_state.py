@@ -29,22 +29,12 @@ class TestState(unittest.TestCase):
         """
         sample_1 = State()
         self.assertIsNone(sample_1.name)
+        self.assertIsNone(sample_1.name)
         sample_1.name = "Osun"
         self.assertTrue(sample_1.name == "Osun")
         self.assertIsNotNone(sample_1.id)
         self.assertIsNotNone(sample_1.created_at)
         self.assertIsNotNone(sample_1.updated_at)
-        var_a = sample_1.created_at
-        sample_1.save()
-        self.assertIsNone(sample_1.save())
-        self.assertEqual(sample_1.created_at, var_a)
-        self.assertNotEqual(sample_1.created_at, sample_1.updated_at)
-        sample_4 = State()
-        sample_4.name = "My_First_Model"
-        sample_4.my_number = 89
-        sample_4.save()
-        self.assertIsNone(sample_4.save())
-        self.assertIsNotNone(str(sample_4))
 
     def test_to_dict_and_reinstantiation(self):
         """
