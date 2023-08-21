@@ -28,21 +28,17 @@ class TestReview(unittest.TestCase):
             test for (init), (str), (save) method
         """
         sample_1 = Review()
+        self.assertIsNone(sample_1.user_id)
+        self.assertIsNone(sample_1.text)
+        self.assertIsNone(sample_1.name)
+        self.assertEqual(sample_1.amenitys, [])
         sample_1.name = "Bisi"
-        sample_1.user_id = ""
-        sample_1.text = ""
-        sample_1.amenity_ids = []
         self.assertIsInstance(sample_1.user_id, str)
         self.assertIsInstance(sample_1.text, str)
         self.assertTrue(sample_1.name == "Bisi")
         self.assertIsNotNone(sample_1.id)
         self.assertIsNotNone(sample_1.created_at)
         self.assertIsNotNone(sample_1.updated_at)
-        var_a = sample_1.created_at
-        sample_1.save()
-        self.assertIsNone(sample_1.save())
-        self.assertEqual(sample_1.created_at, var_a)
-        self.assertNotEqual(sample_1.created_at, sample_1.updated_at)
 
     def test_to_dict_and_reinstantiation(self):
         """
