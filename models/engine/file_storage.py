@@ -55,14 +55,15 @@ class FileStorage:
             try:
                 b = {f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj}
                 for key in reversed(b.keys()):
-                        first_key = key
-                    for k, v in b[first_key].items():
-                        if k == "__class__":
-                            a = v
-                    if a == "BaseModel":
-                        FileStorage.__objects.update(b)
-                    else:
-                        FileStorage.__objects = b.update(FileStorage.__objects)
+                    first_key = key
+                for k, v in b[first_key].items():
+                    if k == "__class__":
+                        a = v
+                        break
+                if a == "BaseModel":
+                    FileStorage.__objects.update(b)
+                else:
+                    FileStorage.__objects = b.update(FileStorage.__objects)
             except:
                 pass
 
