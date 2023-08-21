@@ -25,6 +25,26 @@ class FileStorage:
             Initialises the (all) method of the instance/class
             :return:  FileStorage.__objects
         """
+        def gt(dt_str):
+            dt, _, us = dt_str.partition(".")
+            dt = datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
+            us = int(us.rstrip("Z"), 10)
+            return dt + datetime.timedelta(microseconds=us)
+
+        for key in FileStorage.__objects.keys():
+            if type(FileStorage.__objects[key]) == str:
+                return FileStorage.__objects
+            else:
+                frmtd_date = gt(FileStorage.__objects[key].to_dict()["created_at"])
+                FileStorage.__objects[key].to_dict()["created_at"] = frmtd_date
+                frmtd_date = gt(FileStorage.__objects[key].to_dict()["updated_at"])
+                FileStorage.__objects[key].to_dict()["updated_at"] = frmtd_date
+                kpClsNme = FileStorage.__objects[key].to_dict()["__class__"]
+                del FileStorage.__objects[key].to_dict()["__class__"]
+                FileStorage.__objects[key] = \
+                    "[{}] ({}) {}".format(kpClsNme,
+                                          FileStorage.__objects[key].to_dict()["id"],
+                                          FileStorage.__objects[key].to_dict())
         return FileStorage.__objects
 
     def new(self, obj):
