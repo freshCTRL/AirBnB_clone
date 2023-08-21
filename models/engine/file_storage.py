@@ -32,7 +32,10 @@ class FileStorage:
         Initialises the (new) method of the instance/class
         """
         if obj:
-            FileStorage.__objects = {f"{obj['__class__']}.{obj['id']}": obj}
+            try:
+                FileStorage.__objects = {f"{obj['__class__']}.{obj['id']}": obj}
+            except ExceptionGroup:
+                pass
 
     def save(self):
         """
