@@ -45,6 +45,8 @@ class TestBase(unittest.TestCase):
             for key1 in val[key0].keys():
                 if key1 == "my_number":
                     self.assertEqual(val[key0][key1], 89)
+        a = caller.reload()
+        self.assertEqual(a, caller.all())
         self.assertIsNotNone(str(sample_4))
 
     def test_to_dict_and_reinstantiation(self):
