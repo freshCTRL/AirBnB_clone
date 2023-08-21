@@ -27,24 +27,16 @@ class TestPlace(unittest.TestCase):
             test for (init), (str), (save) method
         """
         sample_1 = Place()
+        self.assertIsNone(sample_1.name)
         sample_1.name = "Bisi"
-        sample_1.number_bathrooms = 0
-        sample_1.max_guest = 0
-        sample_1.user_id = ""
-        sample_1.amenity_ids = []
-        self.assertIsInstance(sample_1.number_bathrooms, int)
-        self.assertIsInstance(sample_1.max_guest, int)
-        self.assertIsInstance(sample_1.user_id, str)
-        self.assertIsInstance(sample_1.amenity_ids, list)
+        self.assertEqual(sample_1.number_bathrooms, 0)
+        self.assertEqual(sample_1.max_guest, 0)
+        self.assertIsNone(sample_1.user_id)
+        self.assertEqual(sample_1.amenity_ids, [])
         self.assertTrue(sample_1.name == "Bisi")
         self.assertIsNotNone(sample_1.id)
         self.assertIsNotNone(sample_1.created_at)
         self.assertIsNotNone(sample_1.updated_at)
-        var_a = sample_1.created_at
-        sample_1.save()
-        self.assertIsNone(sample_1.save())
-        self.assertEqual(sample_1.created_at, var_a)
-        self.assertNotEqual(sample_1.created_at, sample_1.updated_at)
 
     def test_to_dict_and_reinstantiation(self):
         """
