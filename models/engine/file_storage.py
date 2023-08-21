@@ -53,7 +53,7 @@ class FileStorage:
         """
         if obj:
             try:
-                FileStorage.__objects = {f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj}
+                FileStorage.__objects.update({f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj})
             except:
                 pass
 
