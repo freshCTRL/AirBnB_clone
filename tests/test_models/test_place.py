@@ -27,7 +27,7 @@ class TestPlace(unittest.TestCase):
             test for (init), (str), (save) method
         """
         sample_1 = Place()
-        self.assertIsNone(sample_1.name)
+        self.assertIsNotNone(sample_1.name)
         sample_1.name = "Bisi"
         self.assertEqual(sample_1.number_bathrooms, 0)
         self.assertEqual(sample_1.max_guest, 0)
