@@ -44,6 +44,7 @@ class TestBase(unittest.TestCase):
         for key0 in val.keys():
             if val[key0].to_dict()["id"] == sample_4.id:
                 self.assertEqual(val[key0].to_dict()["my_number"], 89)
+                break
         a = caller.reload()
         self.assertNotEqual(a, val)
         self.assertIsNotNone(str(sample_4))
