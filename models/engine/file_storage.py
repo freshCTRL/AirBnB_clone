@@ -5,7 +5,7 @@
 import datetime
 import os
 import json
-# import copy
+import copy
 
 
 class FileStorage:
@@ -36,17 +36,12 @@ class FileStorage:
             us = int(us.rstrip("Z"), 10)
             return dt + datetime.timedelta(microseconds=us)
 
-        final = FileStorage.__objects
+        final = copy.deepcopy(FileStorage.__objects)
         all_keys = final.keys()
         for key in all_keys:
-            a = final[key]["__class__"]
             del final[key]["__class__"]
-            if a == "BaseModel":
-                from models.base_model import BaseModel
-                final[key] = BaseModel(**final[key])  # i needed to import the base_model class
-            elif a == "User":
-                from models.user import User
-                final[key] = User(**final[key])
+            from models.base_model import BaseModel
+            final[key] = BaseModel(**final[key])
             frmtd_date = gt(final[key].to_dict()["created_at"])
             final[key].to_dict()["created_at"] = frmtd_date
             frmtd_date = gt(final[key].to_dict()["updated_at"])
