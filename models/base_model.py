@@ -38,6 +38,8 @@ class BaseModel:
         name = "name"
         setattr(self, name, value)
         getattr(self, name)
+        self.updated_at = datetime.now()
+        storage.new(self)
 
     def my_number(self, value):
         """
@@ -46,6 +48,8 @@ class BaseModel:
         my_number = "my_number"
         setattr(self, my_number, value)
         getattr(self, my_number)
+        self.updated_at = datetime.now()
+        storage.new(self)
 
     def save(self):
         """
