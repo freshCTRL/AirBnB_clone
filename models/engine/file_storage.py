@@ -58,6 +58,9 @@ class FileStorage:
         """
 
         def gt(dt_str):
+            """
+                reversing an isofomarted date
+            """
             dt, _, us = dt_str.partition(".")
             dt = datetime.datetime.strptime(dt, "%Y-%m-%dT%H:%M:%S")
             us = int(us.rstrip("Z"), 10)
