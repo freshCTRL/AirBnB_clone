@@ -5,7 +5,7 @@
 import datetime
 import os
 import json
-import copy
+# import copy
 
 
 class FileStorage:
@@ -36,7 +36,7 @@ class FileStorage:
             us = int(us.rstrip("Z"), 10)
             return dt + datetime.timedelta(microseconds=us)
 
-        final = copy.deepcopy(FileStorage.__objects)
+        final = FileStorage.__objects
         all_keys = final.keys()
         for key in all_keys:
             a = final[key]["__class__"]
