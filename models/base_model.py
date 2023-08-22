@@ -5,9 +5,6 @@
 from datetime import datetime
 import uuid
 from models.__init__ import storage
-"""
-    Defines the base model for the project.
-"""
 
 
 class BaseModel:
@@ -41,6 +38,7 @@ class BaseModel:
         name = "name"
         setattr(self, name, value)
         getattr(self, name)
+        self.updated_at = datetime.now()
 
     def my_number(self, value):
         """
@@ -49,6 +47,7 @@ class BaseModel:
         my_number = "my_number"
         setattr(self, my_number, value)
         getattr(self, my_number)
+        self.updated_at = datetime.now()
 
     def save(self):
         """
@@ -56,7 +55,6 @@ class BaseModel:
             updated_at with the current datetime
         """
         self.updated_at = datetime.now()
-        storage.new(self)
         storage.save()
 
     def to_dict(self):
