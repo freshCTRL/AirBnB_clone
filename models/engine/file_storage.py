@@ -5,37 +5,7 @@
 import datetime
 import os
 import json
-import copy
-
-
-class BaseModel:
-    """
-        re-declaring a class baseModel
-    """
-    def __init__(self, dict1):
-        self.__dict__.update(dict1)
-
-
-class User:
-    """
-        re-declaring a class baseModel
-    """
-    def __init__(self, dict1):
-        self.__dict__.update(dict1)
-
-
-def dict2obj(dict1):
-    """
-        convert a dict representation to a dictionary
-    """
-    return json.loads(json.dumps(dict1), object_hook=BaseModel)
-
-
-def dict2objOthers(dict1):
-    """
-        convert a dict representation to a dictionary
-    """
-    return json.loads(json.dumps(dict1), object_hook=User)
+# import copy
 
 
 class FileStorage:
@@ -66,19 +36,21 @@ class FileStorage:
             us = int(us.rstrip("Z"), 10)
             return dt + datetime.timedelta(microseconds=us)
 
-        final = copy.deepcopy(FileStorage.__objects)
+        final = FileStorage.__objects
         all_keys = final.keys()
         for key in all_keys:
             a = final[key]["__class__"]
             del final[key]["__class__"]
             if a == "BaseModel":
-                final[key] = dict2obj(final[key])  # i needed to import the base_model class
+                from models.base_model import BaseModel
+                final[key] = BaseModel(final[key])  # i needed to import the base_model class
             else:
-                final[key] = dict2objOthers(final[key])
-            frmtd_date = gt(final[key].__dict__["created_at"])
-            final[key].__dict__["created_at"] = frmtd_date
-            frmtd_date = gt(final[key].__dict__["updated_at"])
-            final[key].__dict__["updated_at"] = frmtd_date
+                from models.user import User
+                final[key] = User(final[key])
+            frmtd_date = gt(final[key].to_dict()["created_at"])
+            final[key].to_dict()["created_at"] = frmtd_date
+            frmtd_date = gt(final[key].to_dict()["updated_at"])
+            final[key].to_dict()["updated_at"] = frmtd_date
         return final
 
     def new(self, obj):
