@@ -41,8 +41,12 @@ class FileStorage:
         final = {}
         for key in all_keys2:
             if type(final2[key]) == dict:
-                from models.base_model import BaseModel
-                final.update({key: BaseModel(**final2[key])})
+                if final2[key]['__class__'] == "BaseModel":
+                    from models.base_model import BaseModel
+                    final.update({key: BaseModel(**final2[key])})
+                else:  # if final2[key]['__class__'] == "User"  to be updated 
+                    from models.user import User  # when new child classes are added
+                    final.update({key: User(**final2[key])})
             else:
                 final.update({key: final2[key]})
 
