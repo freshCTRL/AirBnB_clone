@@ -31,7 +31,7 @@ class TestPlace(unittest.TestCase):
         sample_1.name = "Bisi"
         self.assertEqual(sample_1.number_bathrooms, 0)
         self.assertEqual(sample_1.max_guest, 0)
-        self.assertIsNone(sample_1.user_id)
+        self.assertIsNotNone(sample_1.user_id)
         self.assertEqual(sample_1.amenity_ids, [])
         self.assertTrue(sample_1.name == "Bisi")
         self.assertIsNotNone(sample_1.id)
