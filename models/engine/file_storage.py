@@ -40,9 +40,7 @@ class FileStorage:
         all_keys = final.keys()
         for key in all_keys:
             from models.base_model import BaseModel
-            def dict2obj(dict1):
-                return json.loads(json.dumps(dict1), object_hook=BaseModel)
-            final[key] = dict2obj(final[key])
+            final[key] = BaseModel(**final[key])
             del final[key].to_dict()["__class__"]
             frmtd_date = gt(final[key].to_dict()["created_at"])
             final[key].to_dict()["created_at"] = frmtd_date
