@@ -43,10 +43,10 @@ class FileStorage:
             del final[key]["__class__"]
             if a == "BaseModel":
                 from models.base_model import BaseModel
-                final[key] = BaseModel(final[key])  # i needed to import the base_model class
-            else:
+                final[key] = BaseModel(**final[key])  # i needed to import the base_model class
+            elif a == "User":
                 from models.user import User
-                final[key] = User(final[key])
+                final[key] = User(**final[key])
             frmtd_date = gt(final[key].to_dict()["created_at"])
             final[key].to_dict()["created_at"] = frmtd_date
             frmtd_date = gt(final[key].to_dict()["updated_at"])
