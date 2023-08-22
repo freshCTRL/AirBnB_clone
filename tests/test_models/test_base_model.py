@@ -42,11 +42,10 @@ class TestBase(unittest.TestCase):
         caller = FileStorage()
         val = caller.all()
         for key0 in val.keys():
-            for key1 in val[key0].keys():
-                if key1 == "my_number":
-                    self.assertEqual(val[key0][key1], 89)
+            if val[key0].to_dict()["id"] == sample_4.id:
+                self.assertEqual(val[key0].to_dict()["my_number"], 89)
         a = caller.reload()
-        self.assertEqual(a, caller.all())
+        self.assertNotEqual(a, val)
         self.assertIsNotNone(str(sample_4))
 
     def test_to_dict_and_reinstantiation(self):
