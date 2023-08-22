@@ -39,9 +39,9 @@ class FileStorage:
         final = copy.deepcopy(FileStorage.__objects)
         all_keys = final.keys()
         for key in all_keys:
-            del final[key]["__class__"]
             from models.base_model import BaseModel
             final[key] = BaseModel(**final[key])
+            del final[key].to_dict()["__class__"]
             frmtd_date = gt(final[key].to_dict()["created_at"])
             final[key].to_dict()["created_at"] = frmtd_date
             frmtd_date = gt(final[key].to_dict()["updated_at"])
