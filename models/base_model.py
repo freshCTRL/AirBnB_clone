@@ -39,7 +39,6 @@ class BaseModel:
         setattr(self, name, value)
         getattr(self, name)
         self.updated_at = datetime.now()
-        storage.new(self)
 
     def my_number(self, value):
         """
@@ -49,7 +48,6 @@ class BaseModel:
         setattr(self, my_number, value)
         getattr(self, my_number)
         self.updated_at = datetime.now()
-        storage.new(self)
 
     def save(self):
         """
@@ -57,7 +55,6 @@ class BaseModel:
             updated_at with the current datetime
         """
         self.updated_at = datetime.now()
-        storage.new(self)
         storage.save()
 
     def to_dict(self):
