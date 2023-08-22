@@ -36,11 +36,18 @@ class FileStorage:
             us = int(us.rstrip("Z"), 10)
             return dt + datetime.timedelta(microseconds=us)
 
-        final = copy.deepcopy(FileStorage.__objects)
+        final2 = copy.deepcopy(FileStorage.__objects)
+        all_keys2 = final2.keys()
+        final = {}
+        for key in all_keys2:
+            if type(final2[key]) == dict:
+                from models.base_model import BaseModel
+                final.update({key: BaseModel(**final2[key])})
+            else:
+                final.update({key: final2[key]})
+
         all_keys = final.keys()
         for key in all_keys:
-            from models.base_model import BaseModel
-            final[key] = BaseModel(**final[key])
             del final[key].to_dict()["__class__"]
             frmtd_date = gt(final[key].to_dict()["created_at"])
             final[key].to_dict()["created_at"] = frmtd_date
@@ -54,9 +61,9 @@ class FileStorage:
         """
         if obj:
             if obj.to_dict()['__class__'] != "BaseModel":
-                FileStorage.__objects.update({f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj.to_dict()})
+                FileStorage.__objects.update({f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj})
             else:
-                a = {f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj.to_dict()}
+                a = {f"{obj.to_dict()['__class__']}.{obj.to_dict()['id']}": obj}
                 a.update(FileStorage.__objects)
                 FileStorage.__objects = a
 
@@ -65,12 +72,20 @@ class FileStorage:
             Initialises the (save) method of the instance/class
         """
         filename = f"{FileStorage.__file_path}"
+        keep_me2 = copy.deepcopy(FileStorage.__objects)
+        keep_me = {}
+        for key in keep_me2.keys():
+            if type(keep_me2[key]) != dict:
+                keep_me.update({key: keep_me2[key].to_dict()})
+            else:
+                keep_me.update({key: keep_me2[key]})
+
         if os.path.isfile(filename):
             with open(filename, mode="w", encoding="utf-8") as file:
-                file.write(json.dumps(FileStorage.__objects))
+                file.write(json.dumps(keep_me))
         else:
             with open(filename, mode="w", encoding="utf-8") as file:
-                file.write(json.dumps(FileStorage.__objects))
+                file.write(json.dumps(keep_me))
 
     def reload(self):
         """
