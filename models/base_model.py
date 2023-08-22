@@ -5,9 +5,6 @@
 from datetime import datetime
 import uuid
 from models.__init__ import storage
-"""
-    Defines the base model for the project.
-"""
 
 
 class BaseModel:
